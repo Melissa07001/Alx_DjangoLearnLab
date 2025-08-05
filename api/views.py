@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from rest_framework import generics
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer
@@ -26,3 +27,14 @@ class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+=======
+from django.shortcuts import render
+
+# Create your views here.
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def hello(request):
+    return Response({'message': 'Hello, ALX!'})
+>>>>>>> c44adeb1cd238ee62f92fa0072aa93fd5902541e
