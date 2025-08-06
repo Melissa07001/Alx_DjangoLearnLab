@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from api.views import BookList  # Import the BookList view
+from api.views import BookList  
 
 
 
 urlpatterns = [
-    path('books/', BookList.as_view(), name='book-list'),  # Maps to the BookList view
+    path('books/', BookList.as_view(), name='book-list'),  
 ]
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # Connects app to main project
+    path('api/', include('api.urls')), 
 ]
