@@ -1,9 +1,7 @@
 from django.urls import path
-from .views import ( # type: ignore
-    AuthorListCreateView,
-    AuthorDetailView,
-    BookListCreateView,
-    BookDetailView,
+from .views import (
+    AuthorListCreateView, AuthorDetailView,
+    BookListCreateView, BookDetailView
 )
 
 urlpatterns = [
