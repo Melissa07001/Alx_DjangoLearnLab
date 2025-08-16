@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'blog',  # your app
 ]
 
+
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 
