@@ -16,6 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,11 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',  # your app
 ]
-
-
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -61,11 +57,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_blog.wsgi.application'
 
-# Database
+# Database configuration (example: PostgreSQL)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # change to 'django.db.backends.mysql' if using MySQL
+        'NAME': 'your_db_name',      # replace with your database name
+        'USER': 'your_db_user',      # replace with your database user
+        'PASSWORD': 'your_db_password',  # replace with your database password
+        'HOST': 'localhost',         # usually localhost
+        'PORT': '5432',              # default PostgreSQL port (3306 for MySQL)
     }
 }
 
