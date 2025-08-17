@@ -1,55 +1,38 @@
-# blog/views.py
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .forms import CustomUserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Post
 
-# Registration view
-def register_view(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect('profile')
-        else:
-            messages.error(request, "Unsuccessful registration. Invalid information.")
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'blog/register.html', {'form': form})
+# List all posts
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/home.html'
+    context_object_name = 'posts'
 
-# Login view
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"Welcome {username}!")
-                return redirect('profile')
-        messages.error(request, "Invalid username or password.")
-    else:
-        form = AuthenticationForm()
-    return render(request, 'blog/login.html', {'form': form})
+# View a single post
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
 
-# Logout view
-def logout_view(request):
-    logout(request)
-    messages.info(request, "You have successfully logged out.")
-    return redirect('login')
+# Create a new post
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'content']
+    template_name = 'blog/post_form.html'
 
-# Profile view
-@login_required
-def profile_view(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        request.user.email = email
-        request.user.save()
-        messages.success(request, "Profile updated successfully.")
-    return render(request, 'blog/profile.html')
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+# Update a post
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content']
+    template_name = 'blog/post_form.html'
+
+# Delete a post
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    template_name = 'blog/post_confirm_delete.html'
+    success_url = reverse_lazy('home')
