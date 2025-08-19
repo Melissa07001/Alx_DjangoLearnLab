@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Django Blog</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
-</head>
-<body>
-    <h1>Welcome to My Django Blog!</h1>
+{% extends 'base.html' %}
+{% block content %}
+  <h1>All Posts</h1>
+  <a href="{% url 'post-create' %}">Create New Post</a>
+  <ul>
     {% for post in posts %}
-        <div class="post">
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content }}</p>
-        </div>
+      <li>
+        <a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a> 
+        - by {{ post.author }}
+      </li>
     {% empty %}
-        <p>No posts yet.</p>
+      <li>No posts available.</li>
     {% endfor %}
-</body>
-</html>
+  </ul>
+{% endblock %}
